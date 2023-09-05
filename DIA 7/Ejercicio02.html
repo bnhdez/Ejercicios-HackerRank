@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - DIA 7</title>
+</head>
+<body>
+    <h1>Huffman Decoding</h1>
+    <label for="encodedString">Encoded String:</label>
+    <input type="text" id="encodedString" placeholder="Enter encoded string">
+    <button id="decodeButton">Decode</button>
+    <p>Decoded String: <span id="decodedString"></span></p>
+    <script>
+        class Node {
+            constructor(data) {
+                this.data = data
+                this.left = null;
+                this.right = null;
+            }
+        }
+
+        function decode_huff(root, s) {
+            let decodedString = '';
+            let currentNode = root;
+
+            for (let i = 0; i < s.length; i++) {
+                // Moverse hacia la izquierda si el bit es 0
+                if (s[i] === '0') {
+                    currentNode = currentNode.left;
+                }
+                // Moverse hacia la derecha si el bit es 1
+                else if (s[i] === '1') {
+                    currentNode = currentNode.right;
+                }
+
+                // Verificar si el nodo actual es una hoja
+                if (currentNode.left === null && currentNode.right === null) {
+                    decodedString += currentNode.data;
+                    // Reiniciar el nodo actual al inicio del árbol
+                    currentNode = root;
+                }
+            }
+
+            return decodedString;
+        }
+
+        function buildHuffmanTree(lines) {
+            const root = new Node(null);
+            let currentNode = root;
+
+            for (let i = 0; i < lines.length; i++) {
+                const line = lines[i].trim();
+                for (let j = 0; j < line.length; j++) {
+                    if (line[j] === '0') {
+                        if (currentNode.left === null) {
+                            currentNode.left = new Node(null);
+                        }
+                        currentNode = currentNode.left;
+                    } else if (line[j] === '1') {
+                        if (currentNode.right === null) {
+                            currentNode.right = new Node(null);
+                        }
+                        currentNode = currentNode.right;
+                    }
+                }
+                currentNode.data = lines[i].charAt(line.length - 1); // Asignar el carácter al nodo hoja
+                currentNode = root; // Reiniciar el nodo actual al inicio del árbol
+            }
+
+            return root;
+        }
+
+        function decodeHuffman() {
+            const encodedString = document.getElementById('encodedString').value;
+
+            // Crear el árbol de Huffman a partir del resto de la entrada (en este caso, codificado manualmente)
+            const huffmanTreeData = [
+                '00A',
+                '01B',
+                '1C',
+            ]; // Modificar según sea necesario
+
+            const root = buildHuffmanTree(huffmanTreeData);
+
+            // Decodificar el string codificado usando el árbol de Huffman
+            const decodedString = decode_huff(root, encodedString);
+            document.getElementById('decodedString').textContent = decodedString;
+        }
+
+        document.getElementById('decodeButton').addEventListener('click', decodeHuffman);
+    </script>
+</body>
+</html>

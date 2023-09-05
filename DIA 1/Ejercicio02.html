@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - DIA 1</title>
+</head>
+<body>
+    <label for="input">Ingrese 5 numeros enteros separados por espacios:</label>
+    <input type="text" id="input" placeholder="e.g. 1 3 5 7 9">
+    <button id="calculateButton">Calcular</button>
+    <p>Minimum Sum: <span id="minSum"></span></p>
+    <p>Maximum Sum: <span id="maxSum"></span></p>
+
+    <script>
+        function miniMaxSum(arr) {
+            arr.sort((a, b) => a - b) //ordena arreglo de menor a mayor
+            const minSum = arr.slice(0, 4).reduce((acumulador, elemento) => acumulador + elemento, 0) //suma de los primeros 4 elementos segun el rango (0,4) dado
+            const maxSum = arr.slice(1).reduce((acumulador, elemento) => acumulador + elemento, 0) //suma de los ultimos 4 elementos, empezando por el elemento 1 del arr hasta el ultimo
+            
+            document.getElementById('minSum').textContent = minSum
+            document.getElementById('maxSum').textContent = maxSum
+        }
+
+        document.getElementById('calculateButton').addEventListener('click', () => {
+            const input = document.getElementById('input').value
+            const arr = input.split(' ').map(Number)
+
+            miniMaxSum(arr)
+        });
+    </script>
+</body>
+</html>

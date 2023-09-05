@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 02 - DIA 5</title>
+</head>
+<body>
+    <script>
+        // Función para procesar las consultas y operar la cola
+        function processData(input) {
+            const inputLines = input.split('\n');
+            const q = parseInt(inputLines[0]);
+            const stack1 = [];
+            const stack2 = [];
+
+            for (let i = 1; i <= q; i++) {
+                const query = inputLines[i].split(' ').map(Number);
+                const queryType = query[0];
+
+                // Tipo 1: Encolar un elemento
+                if (queryType === 1) {
+                    const x = query[1];
+                    stack1.push(x);
+                }
+                // Tipo 2: Desencolar el elemento del frente
+                else if (queryType === 2) {
+                    if (stack2.length === 0) {
+                        // Transferir elementos de stack1 a stack2 si stack2 está vacío
+                        while (stack1.length > 0) {
+                            stack2.push(stack1.pop());
+                        }
+                    }
+                    if (stack2.length > 0) {
+                        stack2.pop();
+                    }
+                }
+                // Tipo 3: Imprimir el elemento del frente
+                else if (queryType === 3) {
+                    if (stack2.length === 0) {
+                        // Transferir elementos de stack1 a stack2 si stack2 está vacío
+                        while (stack1.length > 0) {
+                            stack2.push(stack1.pop());
+                        }
+                    }
+                    if (stack2.length > 0) {
+                        console.log(stack2[stack2.length - 1]);
+                    }
+                }
+            }
+        }
+
+        // Ejemplo de uso:
+        const input = '5\n1 42\n2\n3\n1 14\n3';
+        processData(input);
+    </script>
+</body>
+</html>

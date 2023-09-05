@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 03 - DIA 5</title>
+</head>
+<body>
+    <script>
+        function isBalanced(s) {
+            const stack = [];
+            const brackets = { '(': ')', '[': ']', '{': '}' };
+
+            for (let i = 0; i < s.length; i++) {
+                const char = s[i];
+
+                if (brackets[char]) {
+                    // Si es un paréntesis de apertura, agrégalo a la pila
+                    stack.push(char);
+                } else {
+                    // Si es un paréntesis de cierre, verifica si coincide con el último paréntesis de apertura en la pila
+                    const lastOpeningBracket = stack.pop();
+                    if (brackets[lastOpeningBracket] !== char) {
+                        // No coincide, por lo que la secuencia no está equilibrada
+                        return "NO";
+                    }
+                }
+            }
+
+            // Si la pila está vacía al final, todos los paréntesis están equilibrados
+            return stack.length === 0 ? "YES" : "NO";
+        }
+
+        // Ejemplo de uso:
+        const sequences = ['{[()]}', '{[(])}', '{{[[(())]]}}'];
+
+        sequences.forEach((sequence) => {
+            console.log(isBalanced(sequence));
+        });
+    </script>
+</body>
+</html>

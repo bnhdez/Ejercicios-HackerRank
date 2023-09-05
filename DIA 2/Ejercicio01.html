@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 01 - DIA 2</title>
+    <script>
+        function findUniqueElements(arr) {
+                const elementFrequency = {}
+
+                // Contar la frecuencia de cada elemento en el array
+                for (const num of arr) {
+                    if (elementFrequency[num]) { //comparacion, si cada num de arr se vuelve a encontrar, el elemento dentro de elementFrequency aumenta
+                        elementFrequency[num]++
+                    } else { //si no, se asigna 1 al elemento
+                        elementFrequency[num] = 1
+                    }
+                }
+
+                // Encontrar los elementos no duplicados
+                const uniqueElements = []
+                for (const num in elementFrequency) {
+                    if (elementFrequency[num] === 1) { 
+                        /*si el elemento n de elementFrequency es igual a 1, uniqueElement se llenara del elemento n de elementFrequency, 
+                        dicho elemento n equivale a una posicion dentro de arr*/
+                        uniqueElements.push(parseInt(num))
+                    }
+                }
+
+                return uniqueElements
+            }
+
+            const n = parseInt(prompt("Ingrese el número de enteros en el array:"))
+            const a = prompt(`Ingrese ${n} números enteros separados por espacios:`).split(' ').map(Number)
+
+            const uniqueElements = findUniqueElements(a)
+            console.log("Elementos no duplicados:", uniqueElements)
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

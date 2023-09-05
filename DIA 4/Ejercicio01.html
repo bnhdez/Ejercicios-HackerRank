@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejercicio 01 - DIA 4</title>
+</head>
+
+<body>
+    <script>
+        function gridChallenge(grid) {
+            //ordenar caracteres en orden alafabetico
+            for (let i = 0; i < grid.length; i++) {
+                grid[i] = grid[i].split('').sort().join('')
+            }
+
+            // chequear si columnas estan en orden alfabetico ascendente
+            for (let j = 0; j < grid[0].length; j++) {
+                for (let i = 1; i < grid.length; i++) {
+                    if (grid[i][j] < grid[i - 1][j]) {
+                        return "NO"
+                    }
+                }
+            }
+
+            return "YES"
+        }
+
+        function main() {
+            const t = parseInt(prompt("Ingresa numero de testeos:"))
+
+            for (let i = 0; i < t; i++) {
+                const n = parseInt(prompt("Ingresa numero de filas/columnas:"))
+                const grid = []
+                for (let j = 0; j < n; j++) {
+                    const row = prompt("Ingresa fila " + (j + 1) + ":")
+                    grid.push(row)
+                }
+
+                const result = gridChallenge(grid)
+                console.log(result)
+            }
+        }
+
+        main()
+    </script>
+</body>
+
+</html>

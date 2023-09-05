@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 03 - DIA 4</title>
+    <script>
+        function minimumBribes(q) {
+                let bribes = 0 // Variable para contar el número de sobornos
+                for (let i = 0; i < q.length; i++) {
+                    // Verificar si alguien ha sobornado a más de 2 personas
+                    if (q[i] - (i + 1) > 2) {
+                        console.log("Too chaotic")
+                        return
+                    }
+                    // Verificar cuántos sobornos ha hecho la persona actual
+                    for (let j = Math.max(0, q[i] - 2); j < i; j++) {
+                        if (q[j] > q[i]) {
+                            bribes++
+                        }
+                    }
+                }
+                // Imprimir el número total de sobornos
+                console.log(bribes)
+            }
+
+            // Example usage
+            const t = parseInt(prompt("Ingresa numero de testeos:"))
+
+            for (let tItr = 0; tItr < t; tItr++) {
+                const n = parseInt(prompt("Ingresa numero de personas en cola:"))
+                const q = prompt("Ingresa configuracion final de la cola:").split(' ').map(qTemp => parseInt(qTemp, 10))
+                minimumBribes(q)
+            }
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

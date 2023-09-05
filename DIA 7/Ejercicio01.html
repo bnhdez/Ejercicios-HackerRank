@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 01 - DIA 7</title>
+</head>
+<body>
+    <script>
+        // Definir la clase Tree y Node
+        var Tree = function () {
+            this.root = null
+        }
+
+        Tree.prototype.insert = function (node, data) {
+            if (node == null) {
+                node = new Node(data)
+            }
+            else if (data < node.data) {
+                node.left = this.insert(node.left, data)
+            }
+            else {
+                node.right = this.insert(node.right, data)
+            }
+            return node
+        }
+
+        var Node = function (data) {
+            this.data = data
+            this.left = null
+            this.right = null
+        }
+
+        // Función para el recorrido en preorden
+        function preOrder(root) {
+            if (root !== null) {
+                document.write(root.data + ' ')
+                preOrder(root.left)
+                preOrder(root.right)
+            }
+        }
+
+        // Crear un árbol y realizar un recorrido en preorden
+        var tree = new Tree()
+        var data = [1, 2, 3, 4, 5, 6] // Los datos del árbol
+        for (var i = 0; i < data.length; i++) {
+            tree.root = tree.insert(tree.root, data[i])
+        }
+
+        document.write("Preorder Traversal: ")
+        preOrder(tree.root)
+    </script>
+</body>
+</html>

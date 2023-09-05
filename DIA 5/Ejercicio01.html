@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 01 - DIA 5</title>
+</head>
+<body>
+    <h1>Unir listas</h1>
+    <div>
+        <label for="list1Count">Length of List 1:</label>
+        <input type="number" id="list1Count">
+    </div>
+    <div>
+        <label for="list1Data">List 1 Elementos:</label>
+        <textarea id="list1Data"></textarea>
+    </div>
+    <div>
+        <label for="list2Count">Length of List 2:</label>
+        <input type="number" id="list2Count">
+    </div>
+    <div>
+        <label for="list2Data">List 2 Elementos:</label>
+        <textarea id="list2Data"></textarea>
+    </div>
+    <button onclick="mergeAndDisplay()">Unir listas</button>
+    <h2>Listas unidas:</h2>
+    <p id="mergedList"></p>
+    <script>
+        const SinglyLinkedListNode = class {
+            constructor(nodeData) {
+                this.data = nodeData
+                this.next = null
+            }
+        };
+
+        const SinglyLinkedList = class {
+            constructor() {
+                this.head = null
+                this.tail = null
+            }
+
+            insertNode(nodeData) {
+                const node = new SinglyLinkedListNode(nodeData);
+
+                if (this.head == null) {
+                    this.head = node
+                } else {
+                    this.tail.next = node
+                }
+
+                this.tail = node
+            }
+        };
+
+        function mergeLists(head1, head2) {
+            // Initialize a dummy node as the head of the merged list
+            const dummyNode = new SinglyLinkedListNode(0)
+            let current = dummyNode
+
+            //Compara elementos
+            while (head1 !== null && head2 !== null) {
+                if (head1.data < head2.data) {
+                    current.next = head1
+                    head1 = head1.next
+                } else {
+                    current.next = head2
+                    head2 = head2.next
+                }
+                current = current.next
+            }
+
+            //si una lista no esta vacia aun, añade los elementos faltantes
+            if (head1 !== null) {
+                current.next = head1
+            } else {
+                current.next = head2
+            }
+
+            return dummyNode.next
+        }
+
+        function mergeAndDisplay() {
+            const list1Count = parseInt(document.getElementById("list1Count").value, 10)
+            const list1Data = document.getElementById("list1Data").value.split("\n").map(Number)
+            const list2Count = parseInt(document.getElementById("list2Count").value, 10)
+            const list2Data = document.getElementById("list2Data").value.split("\n").map(Number)
+
+            let llist1 = new SinglyLinkedList()
+            let llist2 = new SinglyLinkedList()
+
+            for (let i = 0; i < list1Count; i++) {
+                llist1.insertNode(list1Data[i])
+            }
+
+            for (let i = 0; i < list2Count; i++) {
+                llist2.insertNode(list2Data[i])
+            }
+
+            let llist3 = mergeLists(llist1.head, llist2.head)
+
+            const mergedListElement = document.getElementById("mergedList")
+            let result = ""
+            while (llist3 !== null) {
+                result += llist3.data + " "
+                llist3 = llist3.next
+            }
+            mergedListElement.textContent = result.trim()
+        }
+    </script>
+</body>
+</html>

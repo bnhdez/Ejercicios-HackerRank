@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - DIA 3</title>
+    <script>
+        function towerBreakers(n, m) {
+            if (m === 1) {
+            //cuando la altura sea 1, jugador 1 no tendra mas movimientos ganando jugador 2
+            return 2
+            }
+            /*cuando numero de torres n sea par ganara jugador 2, ya que jugador 2 puede imitar las acciones de jugador 1 hasta que se agoten
+            caso contrario ganara jugador 1*/
+            return n % 2 === 0 ? 2 : 1
+        }
+
+        function main() {
+            const t = parseInt(prompt("Ingrese el numero de casos (partidas):"), 10);
+
+            for (let tItr = 0; tItr < t; tItr++) {
+                const input = prompt("Ingrese n y m separados por un espacio:");
+                const [n, m] = input.split(' ').map(Number);
+                const result = towerBreakers(n, m);
+                console.log(result);
+            }
+        }
+
+        main();
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

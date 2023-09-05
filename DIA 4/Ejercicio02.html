@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Ejercicio 02 - DIA 4</title>
+</head>
+
+<body>
+    <script>
+        function superDigit(n, k) {
+            // Calcula superdigito de un solo numero
+            const calcSuperDigit = (num) => {
+                if (num.length === 1) {
+                    return parseInt(num)
+                }
+                const sum = num.split('').reduce((acc, digit) => acc + parseInt(digit), 0)
+                return calcSuperDigit(sum.toString())
+            }
+
+            // Calcula superdigito de n * k
+            const initialSum = n.split('').reduce((acc, digit) => acc + parseInt(digit), 0) * k
+            return calcSuperDigit(initialSum.toString())
+        }
+
+        function main() {
+            const firstMultipleInput = prompt("Ingrese n y k (separado por un espacio)").split(' ')
+            const n = firstMultipleInput[0]
+            const k = parseInt(firstMultipleInput[1], 10)
+            const result = superDigit(n, k)
+            console.log(result)
+        }
+
+        main();
+    </script>
+</body>
+
+</html>

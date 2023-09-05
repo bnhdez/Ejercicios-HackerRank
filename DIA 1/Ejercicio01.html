@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 01 - DIA 1</title>
+</head>
+<body>
+    <textarea id="input" rows="10" cols="50" placeholder="Enter input here"></textarea>
+    <button id="calculateButton">Calcular Ratios</button>
+    <pre id="output"></pre>
+
+    <script>
+        function plusMinus(arr) {
+            const n = arr.length
+            let positiveCount = 0
+            let negativeCount = 0
+            let zeroCount = 0
+
+            for (let i = 0; i < n; i++) {
+                if (arr[i] > 0) {
+                    positiveCount++ //si el elemento del arr correspondiente a la iteracion es mayor a 0 aumenta el conteo positivo
+                } else if (arr[i] < 0) {
+                    negativeCount++ //si el elemento del arr correspondiente a la iteracion es menor a 0 aumenta el conteo negativo
+                } else {
+                    zeroCount++ //si no aumenta el conteo de ceros
+                }
+            }
+
+            const positiveRatio = positiveCount / n
+            const negativeRatio = negativeCount / n
+            const zeroRatio = zeroCount / n
+
+            return [
+                positiveRatio.toFixed(6),
+                negativeRatio.toFixed(6),
+                zeroRatio.toFixed(6)
+            ];
+        }
+
+        function main(input) {
+            const lines = input.split('\n')
+            const n = parseInt(lines[0].trim(), 10)
+
+            const arr = lines[1].split(' ').map(arrTemp => parseInt(arrTemp, 10))
+
+            const ratios = plusMinus(arr)
+            return ratios.join('\n')
+        }
+
+        const calculateButton = document.getElementById('calculateButton')
+        calculateButton.addEventListener('click', () => {
+            const input = document.getElementById('input').value
+            const output = main(input)
+            document.getElementById('output').textContent = output
+        });
+    </script>
+</body>
+</html>

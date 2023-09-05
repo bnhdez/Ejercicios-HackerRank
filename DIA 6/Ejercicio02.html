@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 02 - DIA 6</title>
+</head>
+<body>
+    <h1>Lego Blocks Calculator</h1>
+
+    <!-- Formulario para ingresar los valores n y m -->
+    <form id="legoForm">
+        <label for="n">Altura (n):</label>
+        <input type="number" id="n" name="n" required><br><br>
+        <label for="m">Ancho (m):</label>
+        <input type="number" id="m" name="m" required><br><br>
+        <input type="submit" value="Calcular">
+    </form>
+
+    <!-- Div para mostrar el resultado -->
+    <div id="resultDiv"></div>
+
+    <script>
+        // Función para manejar el envío del formulario
+        document.getElementById("legoForm").addEventListener("submit", function (event) {
+            event.preventDefault() // Evita que la página se recargue
+
+            // Obtiene los valores de n y m ingresados por el usuario
+            const n = parseInt(document.getElementById("n").value)
+            const m = parseInt(document.getElementById("m").value)
+
+            // Llama a la función legoBlocks con los valores ingresados
+            const result = legoBlocks(n, m)
+
+            // Muestra el resultado en el div resultDiv
+            document.getElementById("resultDiv").innerHTML = "Número de formas posibles: " + result
+        });
+
+        const ML = 1000000007n
+        const maxN = 1000
+        const maxM = 1000
+        const T = [[]];
+
+        // T contiene todas las permutaciones de Fila x Columna
+        // es decir, si solo hay una fila y 4 columnas, los valores serán
+        // [1, 2, 4, 8], lo que corresponde al número total de permutaciones
+        // utilizando bloques de tamaño 1, 2, 3, 4
+        // si hay dos filas, la segunda fila de T se verá así
+        // [1, 4, 16, 64], que es la primera fila elevada a la potencia del número de filas
+        // 1 elevado a la 1, 2 elevado a la 2, 4 elevado a la 2, 8 elevado
+        // si n = 4 y m = 4, podemos obtener el número total de permutaciones usando
+        // T[n][m] = 4096 o 8 elevado a la 
+
+            for (let i = 1; i <= maxN; i++) {
+                // R es una sola fila con diferentes permutaciones
+                // basadas en el número de columnas
+                const R = [];
+                // Usamos las primeras 4 permutaciones de columnas de la fila para inicializar la primera fila
+                if (i === 1) {
+                    R[1] = 1n
+                    R[2] = 2n
+                    R[3] = 4n
+                    R[4] = 8n
+                }
+                for (let j = 1; j <= maxM; j++) {
+                    if (i === 1 && j > 4) {
+                        R[j] = R[j - 1] + R[j - 2] + R[j - 3] + R[j - 4]
+                        R[j] %= ML
+                    } else if (i >= 2) {
+                        R[j] = T[i - 1][j] * T[1][j]
+                        R[j] %= ML
+                    }
+                }
+                T.push(R);
+            }
+
+        function legoBlocks(n, m) {
+            // G contiene el número total de permutaciones para el número proporcionado
+            // de filas, es decir, si n = 4 y m = 4
+            // G contendrá T[4][1], T[4][2], T[4][3] y T[4][4]
+            const G = [];
+            for (let k = 1; k <= m; k++) {
+                G[k] = T[n][k]
+            }
+            // H contendrá el número total de permutaciones menos las
+            // permutaciones inválidas
+            // para calcular H hacemos esto: G[m] - sum(H[k]*G[k]);
+            // K tomará valores de 1 a la cantidad de columnas, que es m
+            const H = []
+            // B contendrá la suma que usamos para calcular H
+            const B = []
+            H[1] = 1n
+            B[1] = 0n
+            for (let l = 2; l <= m; l++) {
+                B[l] = 0n
+                for (let o = 1; o < l; o++) {
+                    B[l] += H[l - o] * G[o]
+                    B[l] %= ML
+                }
+                // Agregamos el módulo aquí para evitar desbordamientos
+                H[l] = (G[l] + ML - B[l]) % ML
+            }
+            return H[m]
+        }
+    </script>
+</body>
+</html>

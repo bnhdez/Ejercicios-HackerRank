@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 03 - DIA 3</title>
+</head>
+<body>
+    <script>
+        function caesarCipher(s, k) {
+            let result = ''
+
+            //iterar a traves de cada caracter en la cadena te texto s
+            for (let i = 0; i < s.length; i++) {
+                //caracter actual de la iteracion
+                const char = s[i]
+
+                //char.match(/[a-z]/i) verifica si es una letra (minuscula o mayuscula)
+                if (char.match(/[a-z]/i)) {
+                    //verfica que sea mayuscula o minuscula
+                    const isUpperCase = char === char.toUpperCase()
+                    //ya sea mayuscula o minuscula saca el codigo Unicode de la letra
+                    const baseCharCode = isUpperCase ? 'A'.charCodeAt(0) : 'a'.charCodeAt(0)
+                    const charCode = char.charCodeAt(0)
+                    /* del caracter base actual sumamos k, mod 26 para verificar que esta en el rango del alfabeto
+                    y sumamos el caracter base nuevamente para desplazarnos a la nueva posicion */
+                    const shiftedCharCode = (charCode - baseCharCode + k) % 26 + baseCharCode
+                    result += String.fromCharCode(shiftedCharCode)
+                } else {
+                    //si no es letra solo añade el caracter
+                    result += char
+                }
+            }
+
+            return result
+        }
+
+        function encryptText() {
+            const inputString = document.getElementById('inputString').value
+            const rotationFactor = parseInt(document.getElementById('rotationFactor').value, 10)
+
+            const encryptedString = caesarCipher(inputString, rotationFactor)
+            document.getElementById('encryptedResult').textContent = encryptedString
+        }
+    </script>
+
+    <h1>Cifrado de Cesar (Encriptacion)</h1>
+    <label for="inputString">Ingrese el texto: </label>
+    <input type="text" id="inputString" placeholder="texto a encriptar"><br>
+    <label for="rotationFactor">Factor de rotacion: </label>
+    <input type="number" id="rotationFactor" placeholder="factor"><br>
+    <button onclick="encryptText()">Encriptar</button>
+
+    <p id="encryptedResult"></p>
+</body>
+</html>

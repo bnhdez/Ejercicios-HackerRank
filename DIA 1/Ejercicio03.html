@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 03 - DIA 1</title>
+</head>
+<body>
+    <label for="timeInput">Ingrese tiempo en formato de 12 horas (e.g. 07:45:30PM):</label>
+    <input type="text" id="timeInput" placeholder="e.g. 07:45:30PM">
+    <button id="convertButton">Convertir</button>
+    <p>Tiempo militar: <span id="militaryTime"></span></p>
+
+    <script>
+        function timeConversion(s) {
+            let Partes = s.split(/[:]/) // Dividir la cadena en partes utilizando el : como separador segun indicaciones del input
+
+            // Extraer las partes de la hora, minutos y segundos
+            let horas = parseInt(Partes[0])
+            let minutos = parseInt(Partes[1])
+            let segundos = parseInt(Partes[2].substr(0, 2)) //substrae 2 elementos del string, empecando de 0 y length 2
+
+            // Extraer el periodo (AM o PM)
+            let periodo = Partes[2].substr(2)
+
+            if (periodo === "PM" && horas !== 12) {
+                // Si es PM y no son las 12 PM, sumar 12 a las horas
+                horas += 12
+            } else if (periodo === "AM" && horas === 12) {
+                // Si es AM y son las 12 AM, convertir a 00 (medianoche)
+                horas = 0
+            }
+
+            // Crear una cadena en formato militar con ceros a la izquierda si es necesario
+            const militar = `${horas.toString().padStart(2, '0')}:${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`
+            return militar
+        }
+
+        document.getElementById('convertButton').addEventListener('click', () => {
+            const input = document.getElementById('timeInput').value
+            const militaryTime = timeConversion(input)
+
+            document.getElementById('militaryTime').textContent = militaryTime
+        });
+    </script>
+</body>
+</html>

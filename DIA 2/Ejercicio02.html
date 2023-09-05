@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejercicio 02 - DIA 2</title>
+</head>
+<body>
+    <label for="matrixInput">Ingrese la matriz (filas separadas por comas):</label>
+    <textarea id="matrixInput" rows="5"></textarea>
+    <button id="calculateButton">Calcular</button>
+    <p>Diferencia Diagonal Absoluta: <span id="result"></span></p>
+    <script>
+        function diagonalDifference(arr) {
+            let leftToRightSum = 0
+            let rightToLeftSum = 0
+
+            const n = arr.length;
+
+            for (let i = 0; i < n; i++) {
+                /* Suma de elementos left-to-right diagonal, leftToRightSum se le asigna la suma de las poisiciones correspondientes de la iteracion en proceso
+                e.g. (0,0), (1,1), (2,2),... */
+                leftToRightSum += arr[i][i] 
+                rightToLeftSum += arr[i][n - i - 1] // Suma de elementos right-to-left diagonal
+            }
+
+            return Math.abs(leftToRightSum - rightToLeftSum)
+        }
+
+        document.getElementById('calculateButton').addEventListener('click', () => {
+            const matrixInput = document.getElementById('matrixInput').value
+            const rows = matrixInput.trim().split('\n')
+            const arr = rows.map(row => row.split(',').map(Number))
+
+            const result = diagonalDifference(arr)
+            document.getElementById('result').textContent = result
+        });
+    </script>
+</body>
+</html>

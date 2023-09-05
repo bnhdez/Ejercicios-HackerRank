@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ejercicio 03 - DIA 7</title>
+</head>
+<body>
+    <h1>Verificar Conjunto de Palabras</h1>
+    <form id="wordForm">
+        <label for="words">Ingrese las palabras (una por línea):</label><br>
+        <textarea id="words" rows="5" cols="40"></textarea><br>
+        <input type="button" value="Verificar" onclick="checkWords()">
+    </form>
+    <div id="result"></div>
+
+    <script>
+        // Clase para representar un nodo Trie
+        class TrieNode {
+            constructor() {
+                this.edges = new Map();
+                this.indexes = [];
+                this.isWordEnd = false;
+            }
+        }
+
+        // Función para insertar una palabra en el Trie
+        function insertWord(root, word, index) {
+            let currentNode = root;
+            for (let character of word) {
+                if (!currentNode.edges.has(character)) {
+                    currentNode.edges.set(character, new TrieNode())
+                }
+                currentNode = currentNode.edges.get(character);
+            }
+            currentNode.indexes.push(index);
+            currentNode.isWordEnd = true;
+        }
+
+        // Función principal para verificar el conjunto de palabras
+        function noPrefix(words) {
+            const root = new TrieNode();
+            let badWordIndex = -1;
+            for (let i = 0; i < words.length; i++) {
+                insertWord(root, words[i], i)
+                let hasPrefix = false;
+                let isPrefix = false;
+                let current = root;
+                for (let character of words[i]) {
+                    if (current.isWordEnd) {
+                        hasPrefix = true
+                        break;
+                    }
+                    current = current.edges.get(character);
+                }
+                if (current.indexes.length > 1) {
+                    hasPrefix = true;
+                }
+                if (current.edges.size > 0) {
+                    isPrefix = true;
+                }
+                if (hasPrefix || isPrefix) {
+                    badWordIndex = i;
+                    break;
+                }
+            }
+            if (badWordIndex === -1) {
+                return ['GOOD SET'];
+            } else {
+                return ['BAD SET', words[badWordIndex]];
+            }
+        }
+
+        // Función para verificar las palabras al hacer clic en el botón
+        function checkWords() {
+            const wordsInput = document.getElementById('words');
+            const words = wordsInput.value.split('\n').filter(word => word.trim() !== '');
+            const result = noPrefix(words);
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = result.join('<br>');
+        }
+    </script>
+</body>
+</html>
